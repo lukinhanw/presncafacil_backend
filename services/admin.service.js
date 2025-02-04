@@ -4,9 +4,11 @@ const User = require('../models/user.model');
 const sequelize = require('../config/database');
 
 class AdminService {
-    async getAdmins(filters = {}) {
+    async getAdmins(filters = {}, currentUserId) {
         const where = sequelize.literal(`JSON_CONTAINS(roles, '"ADMIN_ROLE"')`);
-        const conditions = [];
+        const conditions = [
+            { id: { [Op.ne]: currentUserId } } // Exclui o usuário atual
+        ];
 
         if (filters.search) {
             conditions.push({

@@ -2,17 +2,22 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Instructor = require('./instructor.model');
 
-const Class = sequelize.define('class', {
+const Class = sequelize.define('classes', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     type: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('Portfolio', 'External', 'DDS', 'Others'),
+        allowNull: false
+    },
+    instructor_id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        validate: {
-            isIn: [['Portfolio', 'External', 'DDS', 'Others']]
+        references: {
+            model: 'instructors',
+            key: 'id'
         }
     },
     date_start: {
@@ -21,26 +26,18 @@ const Class = sequelize.define('class', {
     },
     date_end: {
         type: DataTypes.DATE,
-        allowNull: true
-    },
-    presents: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
+        allowNull: true,
+        defaultValue: null
     },
     status: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'scheduled',
-        validate: {
-            isIn: [['scheduled', 'completed', 'cancelled']]
-        }
+        type: DataTypes.ENUM('scheduled', 'completed', 'cancelled'),
+        defaultValue: 'scheduled'
     },
-    unit: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    name: {
+    unit: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -67,14 +64,6 @@ const Class = sequelize.define('class', {
     objective: {
         type: DataTypes.TEXT,
         allowNull: true
-    },
-    instructor_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'instructors',
-            key: 'id'
-        }
     }
 }, {
     tableName: 'classes',
@@ -82,7 +71,10 @@ const Class = sequelize.define('class', {
     underscored: true
 });
 
-// Relacionamento com a tabela de instrutores
-Class.belongsTo(Instructor, { foreignKey: 'instructor_id', as: 'instructor' });
+// Relacionamentos
+Class.belongsTo(Instructor, { 
+    foreignKey: 'instructor_id', 
+    as: 'instructor' 
+});
 
 module.exports = Class; 

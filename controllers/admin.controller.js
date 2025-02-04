@@ -141,7 +141,7 @@ class AdminController {
                 positions: req.query.positions
             };
 
-            const admins = await adminService.getAdmins(filters);
+            const admins = await adminService.getAdmins(filters, req.user.id);
             res.json({
                 success: true,
                 data: admins || []

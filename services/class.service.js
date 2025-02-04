@@ -256,31 +256,24 @@ class ClassService {
             // Preparar os dados para criação
             const classData = {
                 type: data.type,
+                instructor_id: data.instructor.id,
                 date_start: data.date_start,
-                presents: 0,
+                date_end: null,
                 status: 'scheduled',
                 unit: data.unit,
-                instructor_id: data.instructor.id,
                 name: data.type === 'Portfolio' ? data.training.name : data.name,
                 code: data.type === 'Portfolio' ? data.training.code : this.getCodeByType(data.type),
-                duration: data.type === 'Portfolio' ? data.training.duration : 
-                         data.type === 'DDS' ? '00:40' : (data.duration || ''),
-                provider: data.type === 'Portfolio' ? data.training.provider : (data.provider || ''),
-                content: data.type === 'Portfolio' ? data.training.content : (data.content || ''),
-                classification: data.type === 'Portfolio' ? data.training.classification : (data.classification || ''),
-                objective: data.type === 'Portfolio' ? data.training.objective : (data.objective || '')
+                duration: data.type === 'Portfolio' ? data.training.duration : data.duration,
+                provider: data.type === 'Portfolio' ? data.training.provider : data.provider,
+                content: data.type === 'Portfolio' ? data.training.content : data.content,
+                classification: data.type === 'Portfolio' ? data.training.classification : data.classification,
+                objective: data.type === 'Portfolio' ? data.training.objective : data.objective
             };
 
             const newClass = await Class.create(classData);
             return this.getClassById(newClass.id);
         } catch (error) {
-            if (error.name === 'SequelizeValidationError') {
-                const messages = error.errors.map(err => err.message).join(', ');
-                throw new Error(`Erro de validação: ${messages}`);
-            }
-            if (error.name === 'SequelizeDatabaseError') {
-                throw new Error(`Erro ao criar aula: ${error.message}`);
-            }
+            console.error('Erro ao criar aula:', error);
             throw error;
         }
     }
