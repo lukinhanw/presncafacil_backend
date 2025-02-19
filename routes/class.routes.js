@@ -7,12 +7,31 @@ const router = express.Router();
 
 // Validações comuns
 const classValidations = [
-    body('name').optional().notEmpty().withMessage('Nome é obrigatório quando informado'),
+    body('name')
+        .custom((value, { req }) => {
+            // Se for Portfolio, nome não é obrigatório pois vem do training
+            if (req.body.type === 'Portfolio') {
+                return true;
+            }
+            // Para outros tipos, nome é obrigatório
+            if (!value || value.trim() === '') {
+                throw new Error('Nome é obrigatório');
+            }
+            return true;
+        }),
     body('date_start').notEmpty().withMessage('Data de início é obrigatória'),
     body('unit').notEmpty().withMessage('Unidade é obrigatória'),
     body('type').isIn(['Portfolio', 'External', 'DDS', 'Others']).withMessage('Tipo inválido'),
     body('instructor').notEmpty().withMessage('Instrutor é obrigatório'),
-    body('instructor.id').notEmpty().withMessage('ID do instrutor é obrigatório')
+    body('instructor.id').notEmpty().withMessage('ID do instrutor é obrigatório'),
+    // Validações específicas para Portfolio
+    body('training')
+        .custom((value, { req }) => {
+            if (req.body.type === 'Portfolio' && (!value || !value.id)) {
+                throw new Error('Dados do treinamento são obrigatórios para tipo Portfolio');
+            }
+            return true;
+        })
 ];
 
 // Validações para registro de presença

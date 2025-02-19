@@ -32,7 +32,7 @@ class ClassService {
             case 'DDS':
                 return `DDS${year}${month}${day}${random}`;
             case 'External':
-                return `EXT${year}${month}${day}${random}`;
+                return 'EXT';
             case 'Others':
                 return `OUT${year}${month}${day}${random}`;
             default:
