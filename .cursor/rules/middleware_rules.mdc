@@ -1,0 +1,18 @@
+---
+description: aplica-se ao desenvolvimento e integração de middlewares, garantindo funcionalidades transversais consistentes.
+globs: 
+---
+# Descrição Semântica:
+# Estas regras aplicam-se ao desenvolvimento e integração de middlewares, garantindo funcionalidades transversais consistentes.
+
+- Desenvolva os seguintes middlewares:
+
+  - authMiddleware: Validação de token JWT.
+  - roleMiddleware: Verificação de permissões de usuário.
+  - errorHandler: Tratamento global de erros.
+  - requestLogger: Registro de logs de requisições.
+  - rateLimiter: Limitação de requisições por IP.
+  - cors: Configuração de CORS para controle de origens.
+  - validator: Validação de dados de entrada utilizando Joi.
+
+- Assegure que todos os middlewares sejam integrados corretamente no pipeline de requisições da aplicação.

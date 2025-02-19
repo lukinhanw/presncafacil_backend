@@ -1,0 +1,18 @@
+---
+description:  estruturação dos modelos de dados, assegurando consistência e integridade no mapeamento objeto-relacional
+globs: 
+---
+# Descrição Semântica:
+# Estas regras orientam a definição e estruturação dos modelos de dados, assegurando consistência e integridade no mapeamento objeto-relacional.
+
+- Crie os seguintes modelos utilizando o Sequelize:
+
+  - User: Representa os usuários do sistema (alunos).
+  - Instructor: Representa os instrutores e professores.
+  - Class: Representa as aulas e treinamentos.
+  - Attendance: Registro de presenças dos participantes.
+  - Terms: Controle e versão dos termos de uso.
+  - Tickets: Gerenciamento de tickets de suporte.
+
+- Defina relacionamentos apropriados entre os modelos, como associações entre `Class` e `Instructor`, e entre `Class` e `Attendance`.
+- Utilize migrations para criar e gerenciar as tabelas correspondentes no banco de dados.

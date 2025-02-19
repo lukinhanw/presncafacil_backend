@@ -4,7 +4,8 @@ const profileService = require('../services/profile.service');
 class ProfileController {
     async getProfile(req, res) {
         try {
-            const profile = await profileService.getProfile(req.user.id);
+            const userType = req.user.roles.includes('INSTRUCTOR_ROLE') ? 'instructor' : 'admin';
+            const profile = await profileService.getProfile(req.user.id, userType);
             res.json({
                 success: true,
                 data: profile
@@ -27,7 +28,8 @@ class ProfileController {
                 });
             }
 
-            const profile = await profileService.updateProfile(req.user.id, req.body);
+            const userType = req.user.roles.includes('INSTRUCTOR_ROLE') ? 'instructor' : 'admin';
+            const profile = await profileService.updateProfile(req.user.id, req.body, userType);
             res.json({
                 success: true,
                 message: 'Perfil atualizado com sucesso',
@@ -51,7 +53,8 @@ class ProfileController {
                 });
             }
 
-            const profile = await profileService.changePassword(req.user.id, req.body);
+            const userType = req.user.roles.includes('INSTRUCTOR_ROLE') ? 'instructor' : 'admin';
+            const profile = await profileService.changePassword(req.user.id, req.body, userType);
             
             res.json({
                 success: true,
@@ -76,7 +79,8 @@ class ProfileController {
                 });
             }
 
-            const profile = await profileService.updateAvatar(req.user.id, req.body.avatar);
+            const userType = req.user.roles.includes('INSTRUCTOR_ROLE') ? 'instructor' : 'admin';
+            const profile = await profileService.updateAvatar(req.user.id, req.body.avatar, userType);
             res.json({
                 success: true,
                 message: 'Foto de perfil atualizada com sucesso',

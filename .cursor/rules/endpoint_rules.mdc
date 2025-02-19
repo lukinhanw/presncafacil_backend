@@ -1,0 +1,43 @@
+---
+description: padrões para criação e gerenciamento de endpoints da API REST, aplicando-se a arquivos de rotas e controladores
+globs: 
+---
+# Descrição Semântica:
+# Estas regras definem os padrões para criação e gerenciamento de endpoints da API REST, aplicando-se a arquivos de rotas e controladores.
+
+- Siga as convenções RESTful para nomeação e estrutura dos endpoints.
+- Implemente os seguintes endpoints principais:
+
+  ## Autenticação
+  - POST /api/auth/login: Login com email/matrícula e senha.
+  - POST /api/auth/refresh-token: Renovar token de acesso.
+  - POST /api/auth/logout: Logout e invalidação de token.
+  - POST /api/auth/reset-password: Solicitar redefinição de senha.
+
+  ## Usuários
+  - GET /api/users: Listar usuários com paginação.
+  - POST /api/users: Criar novo usuário.
+  - GET /api/users/:id: Obter detalhes de um usuário específico.
+  - PUT /api/users/:id: Atualizar informações de um usuário.
+  - DELETE /api/users/:id: Remover usuário.
+  - PATCH /api/users/:id/status: Ativar ou desativar usuário.
+
+  ## Termos de Uso
+  - POST /api/terms/accept: Aceitar termos de uso.
+  - GET /api/terms/status: Verificar status dos termos.
+  - PUT /api/terms/update: Atualizar versão dos termos.
+
+  ## Aulas
+  - GET /api/classes: Listar aulas com filtros.
+  - POST /api/classes: Criar nova aula.
+  - GET /api/classes/:id: Obter detalhes de uma aula específica.
+  - PUT /api/classes/:id: Atualizar informações de uma aula.
+  - DELETE /api/classes/:id: Remover aula.
+  - POST /api/classes/:id/start: Iniciar aula.
+  - POST /api/classes/:id/end: Finalizar aula.
+
+  ## Presenças
+  - POST /api/attendance/register: Registrar presença.
+  - PUT /api/attendance/update: Atualizar registro de presença.
+  - DELETE /api/attendance/remove: Remover registro de presença.
+  - GET /api/attendance/report/:classId: Obter relatório de presenças para uma aula específica.

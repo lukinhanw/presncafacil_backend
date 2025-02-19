@@ -1,0 +1,12 @@
+---
+description: implementação de autenticação e autorização em arquivos relacionados à segurança e controle de acesso.
+globs: 
+---
+# Descrição Semântica:
+# Estas regras orientam a implementação de autenticação e autorização em arquivos relacionados à segurança e controle de acesso.
+
+- Utilize JWT (JSON Web Token) para autenticação, incluindo tokens de atualização (refresh tokens).
+- Desenvolva middlewares para validação de tokens e controle de acesso baseado em roles.
+- Implemente um sistema de roles com as seguintes permissões: ADMIN e INSTRUCTOR.
+- Exija a aceitação dos termos de uso durante o processo de registro ou login.
+- Mantenha uma blacklist de tokens revogados para impedir acessos não autorizados.

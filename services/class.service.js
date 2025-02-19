@@ -229,7 +229,7 @@ class ClassService {
         }
     }
 
-    async createClass(data) {
+    async createClass(data, userId, userType) {
         try {
             // Validações específicas por tipo
             if (data.type === 'Portfolio') {
@@ -249,14 +249,22 @@ class ClassService {
             if (!data.unit) {
                 throw new Error('Unidade é obrigatória');
             }
-            if (!data.instructor || !data.instructor.id) {
-                throw new Error('Instrutor é obrigatório');
+
+            // Se for instrutor, usa o próprio ID como instrutor
+            let instructorId;
+            if (userType === 'instructor') {
+                instructorId = userId;
+            } else {
+                if (!data.instructor || !data.instructor.id) {
+                    throw new Error('Instrutor é obrigatório');
+                }
+                instructorId = data.instructor.id;
             }
 
             // Preparar os dados para criação
             const classData = {
                 type: data.type,
-                instructor_id: data.instructor.id,
+                instructor_id: instructorId,
                 date_start: data.date_start,
                 date_end: null,
                 status: 'scheduled',

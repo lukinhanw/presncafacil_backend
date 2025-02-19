@@ -1,20 +1,27 @@
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
+const Instructor = require('../models/instructor.model');
 const sequelize = require('../config/database');
 const uploadService = require('./upload.service');
 
 class ProfileService {
-    async getProfile(userId) {
-        const user = await User.findByPk(userId);
+    async getProfile(userId, userType) {
+        const Model = userType === 'instructor' ? Instructor : User;
+        const user = await Model.findByPk(userId);
+        
         if (!user) {
             throw new Error('Usuário não encontrado');
         }
 
         const data = user.toJSON();
         delete data.password;
-        data.isActive = data.is_active;
-        delete data.is_active;
+        
+        // Apenas para User model
+        if (userType !== 'instructor') {
+            data.isActive = data.is_active;
+            delete data.is_active;
+        }
 
         // Adiciona a URL completa da foto se existir
         if (data.avatar) {
@@ -24,18 +31,19 @@ class ProfileService {
         return data;
     }
 
-    async updateProfile(userId, profileData) {
+    async updateProfile(userId, profileData, userType) {
         const transaction = await sequelize.transaction();
+        const Model = userType === 'instructor' ? Instructor : User;
 
         try {
-            const user = await User.findByPk(userId);
+            const user = await Model.findByPk(userId);
             if (!user) {
                 throw new Error('Usuário não encontrado');
             }
 
             // Verifica se o email já está em uso por outro usuário
             if (profileData.email) {
-                const existingUser = await User.findOne({
+                const existingUser = await Model.findOne({
                     where: {
                         email: profileData.email,
                         id: { [Op.ne]: userId }
@@ -48,8 +56,10 @@ class ProfileService {
             }
 
             // Remove campos que não devem ser atualizados pelo usuário
-            delete profileData.roles;
-            delete profileData.is_active;
+            if (userType !== 'instructor') {
+                delete profileData.roles;
+                delete profileData.is_active;
+            }
             delete profileData.registration;
 
             // Se houver nova senha, faz o hash
@@ -78,8 +88,12 @@ class ProfileService {
 
             const data = user.toJSON();
             delete data.password;
-            data.isActive = data.is_active;
-            delete data.is_active;
+            
+            // Apenas para User model
+            if (userType !== 'instructor') {
+                data.isActive = data.is_active;
+                delete data.is_active;
+            }
 
             // Adiciona a URL completa da foto se existir
             if (data.avatar) {
@@ -93,11 +107,12 @@ class ProfileService {
         }
     }
 
-    async changePassword(userId, { currentPassword, newPassword }) {
+    async changePassword(userId, { currentPassword, newPassword }, userType) {
         const transaction = await sequelize.transaction();
+        const Model = userType === 'instructor' ? Instructor : User;
 
         try {
-            const user = await User.findByPk(userId);
+            const user = await Model.findByPk(userId);
             if (!user) {
                 throw new Error('Usuário não encontrado');
             }
@@ -116,8 +131,12 @@ class ProfileService {
 
             const data = user.toJSON();
             delete data.password;
-            data.isActive = data.is_active;
-            delete data.is_active;
+            
+            // Apenas para User model
+            if (userType !== 'instructor') {
+                data.isActive = data.is_active;
+                delete data.is_active;
+            }
 
             // Adiciona a URL completa da foto se existir
             if (data.avatar) {
@@ -131,11 +150,12 @@ class ProfileService {
         }
     }
 
-    async updateAvatar(userId, avatarBase64) {
+    async updateAvatar(userId, avatarBase64, userType) {
         const transaction = await sequelize.transaction();
+        const Model = userType === 'instructor' ? Instructor : User;
 
         try {
-            const user = await User.findByPk(userId);
+            const user = await Model.findByPk(userId);
             if (!user) {
                 throw new Error('Usuário não encontrado');
             }
@@ -156,8 +176,12 @@ class ProfileService {
 
             const data = user.toJSON();
             delete data.password;
-            data.isActive = data.is_active;
-            delete data.is_active;
+            
+            // Apenas para User model
+            if (userType !== 'instructor') {
+                data.isActive = data.is_active;
+                delete data.is_active;
+            }
 
             // Adiciona a URL completa da foto
             data.avatar = `${process.env.API_URL || 'http://localhost:5000'}/api/uploads/${fileName}`;

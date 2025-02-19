@@ -1,0 +1,14 @@
+---
+description: padrões de codificação e práticas recomendadas para garantir qualidade e uniformidade no código
+globs: 
+---
+# Descrição Semântica:
+# Estas regras estabelecem os padrões de codificação e práticas recomendadas para garantir qualidade e uniformidade no código.
+
+- Adote a arquitetura em camadas (MVC) para organizar o código.
+- Implemente tratamento consistente de erros em toda a aplicação.
+- Utilize o Joi para validação de dados de entrada.
+- Configure logs estruturados utilizando a biblioteca Winston.
+- Documente o código com JSDoc para facilitar o entendimento e a manutenção.
+- Utilize ESLint e Prettier para manter a padronização e qualidade do código.
+- Siga convenções de commits semânticos para manter um histórico de alterações claro e informativo.

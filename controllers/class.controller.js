@@ -39,7 +39,9 @@ class ClassController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
             }
-            const classData = await classService.createClass(req.body);
+
+            const userType = req.user.roles.includes('INSTRUCTOR_ROLE') ? 'instructor' : 'admin';
+            const classData = await classService.createClass(req.body, req.user.id, userType);
             res.status(201).json(classData);
         } catch (error) {
             console.error('Erro ao criar aula:', error);

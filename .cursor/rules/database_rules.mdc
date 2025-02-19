@@ -1,0 +1,12 @@
+---
+description: interações com o banco de dados, especialmente em arquivos relacionados a modelos e configurações do Sequelize
+globs: 
+---
+# Estas regras aplicam-se a todas as interações com o banco de dados, especialmente em arquivos relacionados a modelos e configurações do Sequelize.
+
+- Utilize PostgreSQL como banco de dados principal.
+- Empregue o Sequelize ORM para modelagem de dados.
+- Implemente migrations para versionamento do esquema do banco de dados.
+- Utilize seeds para popular o banco com dados iniciais.
+- Estabeleça relacionamentos complexos entre entidades conforme necessário.
+- Configure backups automáticos diários do banco de dados.
